@@ -33,7 +33,7 @@
             aria-label="Search" required>
           <button class="btn btn-outline-dark" type="submit">Search</button>
         </form>
-        <ul class="navbar-nav ml-auto mx-3 min-width"> 
+        <ul class="navbar-nav ml-auto  min-width"> 
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
@@ -110,7 +110,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="signup/" method='post' class="row g-3">
+        <form action="signup/" method='post' class="row g-3 form-flex">
           {% csrf_token %}
           <div class="col-md-12">
             <label for="username" class="form-label">Username</label>
@@ -141,7 +141,7 @@
               Required>
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary top-mar">Submit</button>
           </div>
         </form>
       </div>
@@ -158,7 +158,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/login/" method='post' class="row g-3">
+        <form action="/login/" method='post' class="row g-3 form-flex">
           {% csrf_token %}
           <div class="col-md-12">
             <label for="loginusername" class="form-label">Username</label>
@@ -169,7 +169,7 @@
             <input type="password" class="form-control" name="loginpassword" id="loginpassword">
           </div>
           <div class="col-12">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary top-mar">Login</button>
           </div>
         </form>
       </div>

@@ -27,6 +27,8 @@
     .min-width{
         display: flex;
         margin-top: 2vh;
+        width: 21vh;
+        margin-left: -5px!important;
     }
     .mar-top{
         margin-top: 1vh;
@@ -98,12 +100,23 @@
 .row{
     flex-wrap: nowrap!important;
 }
+.form-flex{
+    display: block!important;
+}
+.top-mar{
+    margin-top: 2vh;
+}
 }
 @media (min-width: 572px) and (max-width: 992px){
 .blog-wid{
     width: 70vw;
 }
-
+.form-flex{
+    display: block!important;
+}
+.top-mar{
+    margin-top: 2vh;
+}
 }
 @media (min-width: 572px) and (max-width: 768px){
     .bd-placeholder-img {

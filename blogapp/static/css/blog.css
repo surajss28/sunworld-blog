@@ -176,3 +176,6 @@ p{
     width: 3vw;
     height: 5vh;
 }
+.min-width{
+    margin-left: 3px;
+}
