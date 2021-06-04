@@ -167,5 +167,11 @@
         width: 25vw;
         height: 30vh;
     }
+    
+}
 
+@media (min-width: 770px) and (max-width: 1000px){
+    .modal-dialog{
+        max-width:70vw!important;
+    }
 }
