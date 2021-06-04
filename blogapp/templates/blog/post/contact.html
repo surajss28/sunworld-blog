@@ -1,0 +1,41 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %}My Blog{% endblock %}
+{% block contactactive %} active {% endblock contactactive %}
+{% block body %}
+<head>
+<link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
+<link rel="stylesheet" type="text/css" media="screen and (max-width:1170px)" href="{% static 'css/phone.css' %}">
+</head>
+<section id="Contact">
+        <div id="contact-box">
+          <form method="post" action=" ">
+             {% csrf_token %} 
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-width"
+                    placeholder="Enter your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-width"
+                    placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Mobile number</label>
+                    <input type="tel" name="phone" id="phone" class="form-width"
+                    placeholder="Enter your phone">
+                </div>
+                <div class="form-group">
+                    <label for="desc">Message</label>
+                <textarea name="desc" id="desc" cols="15" rows="4" required class="form-width"></textarea>
+                </div>
+                <div class="container text-center">
+                <button type="submit" class="btn btn-primary btn-lg" value="submit">Submit</button>
+                </div>
+            </form>
+
+
+    </section>
+
+{% endblock %}

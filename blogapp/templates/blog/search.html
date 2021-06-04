@@ -1,0 +1,45 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block title %} Search Results {% endblock %}
+{% block css %}
+.box{
+  height:68vh;
+}
+{% endblock %}
+{% block body %}
+<div class="container box my-3">
+<h2>Search results : </h2>
+{% if posts|length < 1 %}
+   <p>No search results</p>
+    Your search query : <b>{{query}}</b> did not match any documents. <br>
+    Suggestions:
+    <ul>
+    <li>Make sure that all words are spelled correctly.</li>
+    <li>Try more general keywords.</li>
+   <li> Try fewer keywords.</li>
+   <li> Try different keywords.</li>
+    </li>
+    </ul>
+{% endif %}
+
+{% for post in posts %}
+  <div class="row">
+    <div class="col">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative blog-wid">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary">{{ post.blog_category }}</strong>
+          <h4 class="mb-0">{{ post.title }}</h4>
+          <div class="mb-1 text-muted"> Published {{ post.publish }} by {{ post.author }}</div>
+          <p class="card-text mb-auto">{{ post.body|safe|truncatewords:20|linebreaks }}</p>
+          <a href="{{ post.get_absolute_url }}" class="stretched-link">Continue reading</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          <img class="bd-placeholder-img" src='/media/{{post.image}}' jpeg width="220" height="270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></img>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}

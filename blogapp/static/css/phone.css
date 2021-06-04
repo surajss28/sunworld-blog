@@ -1,0 +1,158 @@
+@media (min-width: 992px) and (max-width: 1026px){ 
+    .d2-flex{
+        margin-right: 8vw;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 768px){
+    div.detail-sec{
+        display: flex;
+        flex-direction: column;
+        margin:0px 20px;
+    }
+    .bd-placeholder-img{
+        margin-left: 8vw;
+        
+    }
+}
+@media (min-width: 360px) and (max-width: 992px){
+    .d2-flex{
+        display: flex;
+        width: 10vw;
+        margin-right: 1vw;
+    }
+    input.form-control{
+        width:60vw;
+    }
+    .min-width{
+        display: flex;
+        margin-top: 2vh;
+    }
+    .mar-top{
+        margin-top: 1vh;
+    }
+    #contact-box input, #contact-box textarea{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50vw;
+    }
+    .d-flex{
+        display: flex;
+        flex-direction: row;
+        
+    }
+    .d-flex3{
+        display: flex;
+        flex-direction: row;
+        width: 33vw;
+    }
+    .width-control{
+        width: 2vw;
+        height: 5vh;
+    }
+}
+
+@media (min-width: 360px) and (max-width: 571px){
+.blog-wid{
+    width: 94vw;
+}
+.width-control{
+    width: 14vw;
+    height: 7vh;
+}
+.width-control1{
+    width: 10vw;
+    height: 5vh;
+}
+
+.bd-placeholder-img {
+    margin-left: 1vw;
+}
+.image-width{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 80vw;
+}
+.about-width{
+    width: 84vw;
+    margin-top: 2vh;
+}
+.archive-width{
+    width: 50vw;
+}
+.col-md-1{
+    width: 5vw!important;
+}
+.left-mar{
+    margin-left: 13vw;
+}
+.left-mar1{
+    margin-left: 4vw;
+}
+.user-width{
+    display: flex;
+    flex-direction: row;
+}
+.row{
+    flex-wrap: nowrap!important;
+}
+}
+@media (min-width: 572px) and (max-width: 992px){
+.blog-wid{
+    width: 70vw;
+}
+
+}
+@media (min-width: 572px) and (max-width: 768px){
+    .bd-placeholder-img {
+        margin-left: 1vw;
+    }
+    .image-width{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 82vw;
+    }
+    .about-width{
+        width: 84vw;
+        margin-top: 2vh;
+    }
+    .archive-width{
+        width: 50vw;
+    }
+    .width-control{
+        width: 14vw;
+        height: 9vh;
+    }
+    .width-control1{
+        width: 10vw;
+        height: 7vh;
+    }
+    .col-md-1{
+        width: 5vw!important;
+    }
+    .left-mar{
+        margin-left: 13vw;
+    }
+    .left-mar1{
+        margin-left: 4vw;
+    }
+    .user-width{
+        display: flex;
+        flex-direction: row;
+    }
+    .row{
+        flex-wrap: nowrap!important;
+    }
+    
+}
+
+@media (min-width: 769px) and (max-width: 1140px){
+    .image-width{ 
+        width: 25vw;
+        height: 30vh;
+    }
+
+}
