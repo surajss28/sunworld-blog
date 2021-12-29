@@ -21,7 +21,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     body = models.TextField()
-    trending = models.CharField(max_length=50, choices=TRENDING_CHOICES, default='general')
+    trending = models.CharField(max_length=50, choices=TRENDING_CHOICES, default='normal')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
