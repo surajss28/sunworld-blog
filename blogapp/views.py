@@ -16,7 +16,7 @@ from django.db.models import Q
 
 def post_list(request):
     object_list = Post.objects.all()
-    trending = Post.objects.all().filter(trending__icontains='Trending')
+    trending = Post.objects.all().filter(trending__contains='Trending')
     paginator = Paginator(object_list, 6) # 6 posts in each page
     page = request.GET.get('page')
     try:
