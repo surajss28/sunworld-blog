@@ -10,12 +10,14 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth  import authenticate,  login, logout
 from blogapp.templatetags import extras
+from django.db.models import Q
 
-# Create your views here.
+
 
 def post_list(request):
     object_list = Post.objects.all()
-    paginator = Paginator(object_list, 3) # 3 posts in each page
+    trending = Post.objects.all().filter(trending__icontains='Trending')
+    paginator = Paginator(object_list, 6) # 6 posts in each page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -25,7 +27,7 @@ def post_list(request):
     except EmptyPage:
         # If page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
-    return render(request,'blog/post/index.html',{'page': page,'posts': posts})
+    return render(request,'blog/post/index.html',{'page': page,'posts': posts, 'trending':trending})
     
 
 def post_detail(request, year, month, day, post):
@@ -35,226 +37,14 @@ def post_detail(request, year, month, day, post):
                                    publish__day = day)
     comments= Mention.objects.all().filter(post=post,parent=None)
     replies= Mention.objects.all().filter(post=post).exclude(parent=None)
+    trending = Post.objects.all().filter(trending__icontains='Trending')
     replyDict={}
     for reply in replies:
         if reply.parent.id not in replyDict.keys():
             replyDict[reply.parent.id]=[reply]
         else:
             replyDict[reply.parent.id].append(reply)
-    return render(request,'blog/post/detail.html',{'post': post ,'comments': comments,'user': request.user, 'replyDict': replyDict})
-
-class PostListView(ListView):
-    queryset = Post.objects.all()
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/post/index.html'
-
-def contact(request):
-    if request.method=="POST":
-        name = request.POST.get('name', '')
-        email = request.POST.get('email', '')
-        phone = request.POST.get('phone', '')
-        desc = request.POST.get('desc', '')
-        contact = Contact(name=name, email=email, phone=phone, desc=desc)
-        contact.save()
-        messages.success(request, 'Your message has been sent')
-    return render(request, 'blog/post/contact.html')
-
-def health(request):
-    object_list = Post.objects.all().filter(blog_category='Health')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/post/health.html')
-
-class HealthListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Health')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/post/health.html'  
-
-
-def sports(request):
-    object_list = Post.objects.all().filter(blog_category='Sports')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/sports.html')
-
-class SportsListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Sports')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/sports.html'  
-
-
-def food(request):
-    object_list = Post.objects.all().filter(blog_category='Food')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/post/food.html')
-
-class FoodListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Food')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/post/food.html'  
-
-
-def science(request):
-    object_list = Post.objects.all().filter(blog_category='Science')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/science.html')
-
-class ScienceListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Science')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/science.html'  
-
-
-def technology(request):
-    object_list = Post.objects.all().filter(blog_category='Technology')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/technology.html')
-
-class TechnologyListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Technology')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/technology.html'  
-
-
-def banking(request):
-    object_list = Post.objects.all().filter(blog_category='Banking')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/banking.html')
-
-class BankingListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Banking')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/banking.html'  
-
-def environment(request):
-    object_list = Post.objects.all().filter(blog_category='Environment')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/environment.html')
-
-class EnvironmentListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Environment')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/environment.html'  
-
-
-def tourist(request):
-    object_list = Post.objects.all().filter(blog_category='Tourist')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/tourist.html')
-
-class TouristListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='Tourist')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/tourist.html'  
-
-
-def tv(request):
-    object_list = Post.objects.all().filter(blog_category='TV')
-    paginator = Paginator(object_list, 3) # 3 posts in each page
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer deliver the first page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range deliver last page of results
-        posts = paginator.page(paginator.num_pages)
-    return render(request, 'blog/tv.html')
-
-class TVListView(ListView):
-    queryset = Post.objects.all().filter(blog_category='TV')
-    context_object_name = 'posts'
-    paginate_by = 3
-    template_name = 'blog/tv.html'  
-
-
-def search(request):
-    query=request.GET['query']
-    if len(query)<4:
-        posts = Post.objects.none()
-    else:
-        posts = Post.objects.all().filter(title__icontains=query)
-    return render(request,'blog/search.html',{'posts': posts})
+    return render(request,'blog/post/detail.html',{'post': post ,'comments': comments,'user': request.user, 'replyDict': replyDict, 'trending':trending})
 
 
 def handleSignUp(request):
@@ -287,8 +77,8 @@ def handleSignUp(request):
         messages.success(request, " Your SunWorld account has been successfully created")
         return redirect('/')
 
-    else:
-        return HttpResponse("404 - Not found")
+    return render(request,"blog/register.html")
+
 
 def handleLogin(request):
     if request.method=="POST":
@@ -305,12 +95,63 @@ def handleLogin(request):
             messages.error(request, "Invalid credentials! Please try again")
             return redirect("/")
 
-    return HttpResponse("404- Not found")
+    return render(request,'blog/login.html')
+
+
 
 def handleLogout(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('/')
+
+
+
+def contact(request):
+    if request.method=="POST":
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        desc = request.POST.get('desc', '')
+        contact = Contact(name=name, email=email, phone=phone, desc=desc)
+        contact.save()
+        messages.success(request, 'Your message has been sent')
+    return render(request, 'blog/post/contact.html')
+
+class TechnologyListView(ListView):
+    queryset = Post.objects.all().filter(blog_category__icontains='Tech')
+    context_object_name = 'posts'
+    paginate_by = 6
+    template_name = 'blog/post/technology.html'  
+
+
+class SportsListView(ListView):
+    queryset = Post.objects.all().filter(blog_category__icontains='Sports')
+    context_object_name = 'posts'
+    paginate_by = 6
+    template_name = 'blog/post/sports.html'  
+
+
+class FoodListView(ListView):
+    queryset = Post.objects.all().filter(blog_category__icontains='Food')
+    context_object_name = 'posts'
+    paginate_by = 6
+    template_name = 'blog/post/food.html'  
+
+
+class TravelListView(ListView):
+    queryset = Post.objects.all().filter(blog_category__icontains='Travel')
+    context_object_name = 'posts'
+    paginate_by = 3
+    template_name = 'blog/post/tourist.html'  
+
+def search(request):
+    query=request.GET['query']
+    if len(query)<4:
+        posts = Post.objects.none()
+    else:
+        posts = Post.objects.all().filter(Q(title__icontains=query) | Q(body__icontains=query) | Q(blog_category__icontains=query))
+    return render(request,'blog/search.html',{'posts': posts})
+
 
 def postComment(request):
     if request.method == "POST":

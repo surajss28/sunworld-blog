@@ -1,52 +1,77 @@
 {% extends "blog/base.html" %}
+{% load static %}
 {% block title %}My Blog{% endblock %}
-{% block homeactive %} active {% endblock homeactive %}
-{% block css %}
+{% block homeactive %}active{% endblock homeactive %}
 
-{% endblock %}
+{% block content %}
 
-{% block body %}
+<div class="main-body">
 
-<div class="container my-4">
-  <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-    <div class="col-md-6 px-0">
-      <h1 class="display-4 fst-italic">The perfect blog to gain knowlege</h1>
-      <p class="lead my-3">Sunworld will help you out to get the most valuable information about the world. Pick any
-        field and enjoy the blog. We are having a tremoundous amount of knowlege.</p>
-    </div>
+<div class="container-fluid">
+  <img src={% static 'images/bg.jpg' %} class='cover-img' alt="cover">
+  <div class='header-text'>
+    <div class="masthead-subheading">Welcome To Ocean of Knowledge!</div>
+    <div class="masthead-heading text-uppercase">Get Ready to know the world</div>
+    <a class="btn btn-warning btn-xl text-uppercase" href="#">Let's Explore</a>
   </div>
 </div>
-<h2 class="container my-4"> Get Ready To Know The World ! </h2>
 
-
-<div class="container my-3">
-  {% for post in posts %}
-  <div class="row">
-    <div class="col">
-      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative blog-wid">
-        <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary">{{ post.blog_category }}</strong>
-          <h4 class="mb-0">{{ post.title }}</h4>
-          <div class="mb-1 text-muted"> Published {{ post.publish }} by {{ post.author }}</div>
-          <p class="card-text mb-auto">{{ post.body|safe|truncatewords:20|linebreaks }}</p>
-          <a href="{{ post.get_absolute_url }}" class="stretched-link">Continue reading</a>
+<div class="top-trending mt-4">
+  <h2 class='mb-4 top-trend'>TOP TRENDING BLOGS</h2>
+  <section>
+    <div class="container-fluid p-sm-0 my-1">
+      <div class="row featured-post-slider">
+        {% for post in trending %}
+        <div class="col-lg-3 col-sm-6 mb-2 mb-lg-0 px-1">
+          <article class="card bg-dark text-center text-white border-0 rounded-0">
+            <img class="card-img rounded-0 img-fluid w-100" src="{{ post.image.url }}" alt="post-thumb">
+            <div class="card-img-overlay">
+              <div class="card-content">
+                <p class="text-uppercase">{{post.category}}</p>
+                <h4 class="card-title mb-4"><a class="text-white" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                <a class="btn btn-outline-light" href="{{ post.get_absolute_url }}">Read More</a>
+              </div>
+            </div>
+          </article>
         </div>
-        <div class="col-auto d-none d-lg-block">
-          <img class="bd-placeholder-img" src='/media/{{post.image}}' jpeg width="250" height="330"
-            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-            preserveAspectRatio="xMidYMid slice" focusable="false">
-          <title>Placeholder</title>
-          <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
-            dy=".3em"></text></img>
-
-        </div>
+        {% endfor %}
       </div>
     </div>
-  </div>
-    {% endfor %}
-    {% include "pagination.html" with page=page_obj %}
+  </section>
+</div>
 
+
+<div class="site-section pt-1">
+  <div class="container">
+    <div class="row-mb-5">
+      <div class="col-12 my-3 pb-4">
+        <h2>Recent Posts</h2>
+      </div>
+        <div class="row">
+          {% for post in posts %}
+            <div class="col-lg-4 mb-4">
+              <div class="entry2">
+                <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="Image" class="img-fluid rounded" data-pagespee></a>
+                  <div class="excerpt">
+                    <span class="post-category text-white bg-warning mb-3">{{ post.blog_category }}</span>
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                      <div class="post-meta align-items-center text-left clearfix">
+                        <figure class="author-figure mb-0 mr-3 float-left"><img src="{% static 'images/default.png' %}" alt="Image" class="img-fluid"></figure>
+                        <span class="d-inline-block mt-1">By <a href="#"> {{ post.fullname }}</a></span>
+                        <span>&nbsp;-&nbsp; {{ post.publish|date }}</span>
+                      </div>
+                      <p>{{ post.body|safe|truncatewords:25|linebreaks }}</p>
+                      <p><a href="{{ post.get_absolute_url }}">Read More</a></p>
+                  </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+{% include "pagination.html" with page=page_obj %}
 
 </div>
 
-{% endblock %}
+{% endblock content %}

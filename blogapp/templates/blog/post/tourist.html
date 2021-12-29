@@ -1,35 +1,18 @@
 {% extends "blog/base.html" %}
 {% load static %}
-{% block title %} Search Results {% endblock %}
-{% block css %}
-.box{
-  height:68vh;
-}
-{% endblock %}
+{% block title %}{% endblock %}
+{% block touristactive %} active {% endblock touristactive %}
 
 {% block content %}
 
-<div class="container my-3">
-  <h2>Search results : </h2>
-  {% if posts|length < 1 %}
-    <p>No search results</p>
-      Your search query : <b>{{query}}</b> did not match any documents. <br>
-      Suggestions:
-      <ul>
-      <li>Make sure that all words are spelled correctly.</li>
-      <li>Try more general keywords.</li>
-    <li> Try fewer keywords.</li>
-    <li> Try different keywords.</li>
-      </li>
-      </ul>
-  {% endif %}
-</div>
-
 <div class="main-body">
 
-<div class="site-section">
+<div class="site-section py-4">
   <div class="container">
     <div class="row-mb-5">
+      <div class="col-12 my-4 pb-4">
+        <h3 class='text-center py-3 inner-text'>Travel Blogs</h3>
+      </div>
       <div class="row">
         {% for post in posts %}
         <div class="col-lg-4 mb-4">
@@ -56,6 +39,6 @@
   </div>
 </div>
 {% include "pagination.html" with page=page_obj %}
-</div>
 
+</div>
 {% endblock content %}

@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}My Blog{% endblock %}
 {% block contactactive %} active {% endblock contactactive %}
-{% block body %}
+{% block content %}
 <head>
 <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
 <link rel="stylesheet" type="text/css" media="screen and (max-width:1170px)" href="{% static 'css/phone.css' %}">
@@ -30,12 +30,12 @@
                     <label for="desc">Message</label>
                 <textarea name="desc" id="desc" cols="15" rows="4" required class="form-width"></textarea>
                 </div>
-                <div class="container text-center">
-                <button type="submit" class="btn btn-primary btn-lg" value="submit">Submit</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg" value="submit">Submit</button>
                 </div>
             </form>
 
 
     </section>
 
-{% endblock %}
+{% endblock content %}

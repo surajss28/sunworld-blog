@@ -9,31 +9,43 @@
   <title>{% block title %}{% endblock %}</title>
   <link href="{% static "css/blog.css" %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen and (max-width:1170px)" href="{% static 'css/phone.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-custome">
     <div class="container-fluid">
-      <a class="navbar-brand mx-4" href="/">SunWorld</a>
+      <a class="navbar-brand mx-4" href="/"><img src='{% static 'images/logo.png' %}' class='logo' alt="sunworld"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav  mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link {% block homeactive %}  {% endblock homeactive %}" aria-current="page" href="/">Home</a>
+            <a class="nav-link {% block homeactive %}  {% endblock homeactive %}" aria-current="page" href="/">HOME</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link {% block contactactive %} {% endblock contactactive %}" href="/contact">Contact Us</a>
+            <a class="nav-link {% block contactactive %} {% endblock contactactive %}" href="{% url 'blogapp:contact' %}">CONTACT</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              BLOG
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'blogapp:technology' %}">Tech</a></li>
+              <li><a class="dropdown-item" href="{% url 'blogapp:food' %}">Food</a></li>
+              <li><a class="dropdown-item" href="{% url 'blogapp:travel' %}">Travel</a></li>
+              <li><a class="dropdown-item" href="{% url 'blogapp:sports' %}">Sports</a></li>
+            </ul>
           </li>
 
-
         </ul>
-        <form method="get" action="/search" class="d2-flex">
-          <input class="form-control me-2" type="search" name="query" id="search" placeholder="Search"
-            aria-label="Search" required>
-          <button class="btn btn-outline-dark" type="submit">Search</button>
+
+        <form method="get" action="/search" class="example">
+          <input type="search" class='search-input' name="query" id="search" placeholder="Search......." aria-label="Search" required>
+          <button type="submit"><i class="fa fa-search"></i></button>
         </form>
-        <ul class="navbar-nav ml-auto  min-width"> 
+        
+        <ul class="navbar-nav ml-auto user-name"> 
           {% if user.is_authenticated %}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
@@ -49,13 +61,9 @@
 
         {% else %}
         <!-- Button to trigger login modal -->
-        <button type="button" class="btn btn-dark mx-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-          Login
-        </button>
+        <a href='{% url 'blogapp:handleLogin' %}' class="btn btn-dark mx-2">LOGIN</a>
         <!-- Button to trigger SignUp modal -->
-        <button type="button" class="btn btn-dark mx-2 mar-top" data-bs-toggle="modal" data-bs-target="#signupModal">
-          SignUp
-        </button>
+        <!--<button type="button" class="btn btn-dark mx-2 mar-top" data-bs-toggle="modal" data-bs-target="#signupModal">SignUp</button> -->
         {% endif %}
       </div>
     </div>
@@ -70,27 +78,7 @@
   {% endfor %}
   {% endif %}
 
-  <header class="d-flex justify-content-center py-3">
-    <ul class="nav nav-pills">
-      <li class="nav-item"><a href="/health" class="nav-link {% block healthactive %}  {% endblock healthactive %} d-flex3"
-          aria-current="page">Health</a></li>
-      <li class="nav-item"><a href="/food"
-          class="nav-link {% block foodactive %}  {% endblock foodactive %} d-flex3">Food</a></li>
-      <li class="nav-item"><a href="/science"
-          class="nav-link {% block scienceactive %}  {% endblock scienceactive %} d-flex3">Science</a></li>
-      <li class="nav-item"><a href="/technology"
-          class="nav-link {% block technologyactive %}  {% endblock technologyactive %} d-flex3">Technology</a></li>
-      <li class="nav-item"><a href="/banking"
-          class="nav-link {% block bankingactive %}  {% endblock bankingactive %} d-flex3">Banking</a></li>
-      <li class="nav-item"><a href="/environment"
-          class="nav-link {% block environmentactive %}  {% endblock environmentactive %} d-flex3">Environment</a></li>
-      <li class="nav-item"><a href="/sports"
-          class="nav-link {% block sportsactive %}  {% endblock sportsactive %} d-flex3">Sports</a></li>
-      <li class="nav-item"><a href="/tourist"
-          class="nav-link {% block touristactive %}  {% endblock touristactive %} d-flex3">Tourist</a></li>
-      <li class="nav-item"><a href="/tv" class="nav-link {% block tvactive %}  {% endblock tvactive %} d-flex3">TV</a></li>
-    </ul>
-  </header>
+  
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -100,86 +88,10 @@
 </head>
 
 
-
-<!-- SignUp Modal -->
-<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="signupModalTitle">SignUp Here</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="signup/" method='post' class="row g-3 form-flex">
-          {% csrf_token %}
-          <div class="col-md-12">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username"
-              Required>
-          </div>
-          <div class="col-md-12">
-            <label for="fname" class="form-label">First Name</label>
-            <input type="text" class="form-control" name="fname" id="fname" placeholder="Enter your first name"
-              Required>
-          </div>
-          <div class="col-md-12">
-            <label for="lname" class="form-label">Last Name</label>
-            <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter your last name" Required>
-          </div>
-          <div class="col-md-12">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" Required>
-          </div>
-          <div class="col-md-12">
-            <label for="pass1" class="form-label">Password</label>
-            <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Enter your password"
-              Required>
-          </div>
-          <div class="col-md-12">
-            <label for="pass2" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" name="pass2" id="pass2" placeholder="confirm your password"
-              Required>
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary top-mar">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Login Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="/login/" method='post' class="row g-3 form-flex">
-          {% csrf_token %}
-          <div class="col-md-12">
-            <label for="loginusername" class="form-label">Username</label>
-            <input type="text" class="form-control width-form" name="loginusername" id="loginusername">
-          </div>
-          <div class="col-md-12">
-            <label for="loginpassword" class="form-label">Password</label>
-            <input type="password" class="form-control width-form" name="loginpassword" id="loginpassword">
-          </div>
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary top-mar">Login</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
 <body>
-  {% block body %}
-  {% endblock body %}
+  
+  {% block content %}
+  {% endblock content %}
 
 
 
@@ -195,8 +107,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     -->
-</body>
-<div class="footer bg-primary">
-<span class="text-white">Copyright © 2020-2021 SunWorld.com</span>
-</div>
-</html>
+
+  {% include 'blog/footer.html' %}

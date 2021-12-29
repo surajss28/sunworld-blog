@@ -13,11 +13,15 @@ class PublishedManager(models.Manager):
 
 class Post(models.Model):
     STATUS_CHOICES = (('draft','Draft'),('published','Published'))
-    blog_category = models.CharField(max_length=50, default='General')
+    BLOG_CATEGORY_CHOICES = (('general','General'),('tech','Tech'),('food','Food'),('travel','Travel'),('sports','Sports'))
+    TRENDING_CHOICES = (('trending', 'Trending'),('general','General'))
+
+    blog_category = models.CharField(max_length=50, choices=BLOG_CATEGORY_CHOICES, default='general')
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     body = models.TextField()
+    trending = models.CharField(max_length=50, choices=TRENDING_CHOICES, default='general')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -37,6 +41,9 @@ class Post(models.Model):
                              self.publish.month,
                              self.publish.day, 
                              self.slug])
+
+    def fullname(self):
+        return f'{self.author.first_name} {self.author.last_name}'
 
 class Contact(models.Model):
     msg_id = models.AutoField(primary_key=True)

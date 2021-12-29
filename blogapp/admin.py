@@ -5,6 +5,7 @@ from .models import Post,Contact,Mention
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
     class Media:
         js= ('tinyinject.js',)
 # class PostAdmin(admin.ModelAdmin):
