@@ -124,18 +124,6 @@ MESSAGE_TAGS = {
     messages.ERROR:'danger'
 }
 
-# PROJECT_ROOT   =   os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
-
-# STATIC_URL = '/static/'
-# MEDIA_ROOT= os.path.join(BASE_DIR, "media")
-# MEDIA_URL="/media/"
-
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, 'static'),
-# )
-
-
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS = [
@@ -147,3 +135,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+import dj_database_url 
+prod_db  =  dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
