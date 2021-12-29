@@ -14,7 +14,7 @@ class PublishedManager(models.Manager):
 class Post(models.Model):
     STATUS_CHOICES = (('draft','Draft'),('published','Published'))
     BLOG_CATEGORY_CHOICES = (('general','General'),('tech','Tech'),('food','Food'),('travel','Travel'),('sports','Sports'))
-    TRENDING_CHOICES = (('trending', 'Trending'),('general','General'))
+    TRENDING_CHOICES = (('trending', 'Trending'),('normal','Normal'))
 
     blog_category = models.CharField(max_length=50, choices=BLOG_CATEGORY_CHOICES, default='general')
     title = models.CharField(max_length=250)
