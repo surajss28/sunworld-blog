@@ -14,14 +14,14 @@ class PublishedManager(models.Manager):
 class Post(models.Model):
     STATUS_CHOICES = (('draft','Draft'),('published','Published'))
     BLOG_CATEGORY_CHOICES = (('general','General'),('tech','Tech'),('food','Food'),('travel','Travel'),('sports','Sports'))
-    TRENDING_CHOICES = (('trending', 'Trending'),('normal','Normal'))
+    TRENDING_CHOICES = (('trending', 'Trending'),('general','General'))
 
     blog_category = models.CharField(max_length=50, choices=BLOG_CATEGORY_CHOICES, default='general')
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     body = models.TextField()
-    trending = models.CharField(max_length=50, choices=TRENDING_CHOICES, default='normal')
+    trending = models.CharField(max_length=50, choices=TRENDING_CHOICES, default='general')
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
